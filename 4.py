@@ -14,6 +14,10 @@ print(ranges)
 
 c = 0
 for r in ranges:
-    if r[0].issubset(r[1]) or r[1].issubset(r[0]):
+    overlap = False
+    for i in r[0]:
+        if i in r[1]:
+            overlap = True
+    if overlap:
         c += 1
 print(c)
