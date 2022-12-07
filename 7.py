@@ -50,3 +50,9 @@ def precise_sizes(directory: dict) -> [int]:
 sizes = precise_sizes(file_system)
 
 print(sum([s for s in sizes if s <= 100000]))
+
+unused = 70000000 - find_dir_size(file_system)
+for size in sorted(sizes):
+    if size+unused >= 30000000:
+        print(size)
+        break
