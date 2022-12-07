@@ -7,10 +7,9 @@ file_system = {
 
 path = []
 
-
 #  Built file system
 for line in lines:
-    print("\nnewline:" + line)
+    # print("\nnewline:" + line)
     line = line.split()
     if line[0] == "$":
         if line[1] == "cd":
@@ -28,11 +27,26 @@ for line in lines:
     for i in path:
         working_dir = working_dir[i]
 
-file_sizes = {}
 
-def find_size(dir: dict) -> int:
-    for value in dir.values():
+def find_dir_size(directory: dict) -> (str, int):
+    size = 0
+    for value in directory.values():
+        if isinstance(value, dict):
+            size += find_dir_size(value)
+        else:
+            size += value
+    return size
 
 
-for key in file_system["/"]:
+def precise_sizes(directory: dict) -> [int]:
+    sizes = []
+    for key, value in directory.items():
+        if isinstance(value, dict):
+            sizes.append(find_dir_size(value))
+            sizes += precise_sizes(value)
+    return sizes
 
+
+sizes = precise_sizes(file_system)
+
+print(sum([s for s in sizes if s <= 100000]))
